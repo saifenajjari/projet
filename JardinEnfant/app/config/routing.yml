@@ -1,0 +1,33 @@
+reclamation:
+    resource: "@ReclamationBundle/Resources/config/routing.yml"
+    prefix:   /reclamation
+
+evenement:
+    resource: "@EvenementBundle/Resources/config/routing.yml"
+    prefix:   /evenement
+
+club:
+    resource: "@ClubBundle/Resources/config/routing.yml"
+    prefix:   /club
+
+transport:
+    resource: "@TransportBundle/Resources/config/routing.yml"
+    prefix:   /transport
+
+jardin:
+    resource: "@JardinBundle/Resources/config/routing.yml"
+    prefix:   /jardin
+
+resto:
+    resource: "@RestoBundle/Resources/config/routing.yml"
+    prefix:   /resto
+
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

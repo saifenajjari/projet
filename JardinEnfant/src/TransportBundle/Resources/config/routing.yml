@@ -1,0 +1,6 @@
+transport_homepage:
+    path:     /
+    defaults: { _controller: TransportBundle:Default:index }
+transport_liste:
+    path:     /liste
+    defaults: { _controller: TransportBundle:Default:index }

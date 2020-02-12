@@ -1,0 +1,13 @@
+#admin
+jardin_homepage:
+    path:     /
+    defaults: { _controller: JardinBundle:Jardin:index }
+
+
+
+
+
+#admin
+admin_jardin_homepage:
+    path:     /admin
+    defaults: { _controller: JardinBundle:AdminJardin:index }
