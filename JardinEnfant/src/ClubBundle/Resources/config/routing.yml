@@ -1,3 +1,31 @@
 club_homepage:
     path:     /
     defaults: { _controller: ClubBundle:Default:index }
+
+club_afficher:
+    path:     /aff
+    defaults: { _controller: ClubBundle:MainAdmin:afficher }
+
+
+club_ajouter:
+    path:     /add
+    defaults: { _controller: ClubBundle:MainAdmin:ajouter }
+
+
+club_afficher1:
+    path:     /aff1
+    defaults: { _controller: ClubBundle:MainAdmin:afficher1 }
+
+
+club_supprimer:
+    path:     /supp{id}
+    defaults: { _controller: ClubBundle:MainAdmin:supprimer }
+
+club_modifier:
+    path:     /mod{id}
+    defaults: { _controller: ClubBundle:MainAdmin:modifier }
+
+
+
+
+

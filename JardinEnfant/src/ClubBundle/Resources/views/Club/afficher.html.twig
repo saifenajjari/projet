@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+
+
+
+{% block titre %}
+    Nos Clubs
+{% endblock %}
+
+{% block content %}
+
+
+
+<section class="ftco-section bg-light">
+    <div class="container">
+        <div class="row">
+
+
+            {% for c in clubs %}
+            <div class="col-md-4 ftco-animate">
+                <div class="blog-entry" data-aos-delay="200">
+
+                    <div class="text p-4">
+                        <div class="meta mb-3">
+                            <div><a href="#" style="color: #0b0b0b">{{ c.nom }}</a></div>
+                            <div><a href="#">Admin</a></div>
+                            <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+                        </div>
+                        <h3 class="heading"><a href="#">{{ c.descp }}</a></h3>
+                    </div>
+                </div>
+            </div>
+       {% endfor %}
+
+{% endblock %}

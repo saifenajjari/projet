@@ -1,0 +1,30 @@
+{% extends "baseadmin.html.twig" %}
+
+
+
+
+
+
+{% block content %}
+    <div class="container">
+
+  {#  {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}#}
+        {{ form_start(form) }}
+            <div class="form-group">
+                <label for="text">Nom : </label>
+                {{ form_widget(form.nom, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+            <div class="form-group">
+                <label for="pwd">desc:</label>
+                {{ form_widget(form.descp, { 'attr': {'class': 'form-control'} }) }}
+            </div>
+        {{ form_widget(form.Ajouter, { 'attr': {'class': 'btn btn-primary'} }) }}
+        </form>
+        {{ form_end(form) }}
+
+</div>
+
+
+{% endblock %}

@@ -11,7 +11,29 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="ClubBundle\Repository\ActiviteRepository")
  */
 class Activite
-{
+{ /**
+ * @ORM\ManyToOne(targetEntity="Club")
+ * @ORM\JoinColumn(name="club_id", referencedColumnName="id")
+ */
+    private $club;
+
+    /**
+     * @return mixed
+     */
+    public function getClub()
+    {
+        return $this->club;
+    }
+
+    /**
+     * @param mixed $club
+     */
+    public function setClub($club)
+    {
+        $this->club = $club;
+    }
+
+
     /**
      * @var int
      *
@@ -27,6 +49,13 @@ class Activite
      * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="adresse", type="string", length=255)
+     */
+    private $adresse;
 
     /**
      * @var int

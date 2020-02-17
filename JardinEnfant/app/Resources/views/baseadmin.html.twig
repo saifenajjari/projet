@@ -71,7 +71,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </ul>
                 </li>
                 <li><a href="forms.html"><i class="lnr lnr-spell-check"></i> <span>Gestion Evenement</span></a></li>
-                <li><a href="tables.html"><i class="lnr lnr-menu"></i> <span>Gestion Club</span></a></li>
+
+
+                <li class="menu-list">
+                    <a href="#"><i class="lnr lnr-menu"></i>
+                        <span>Gestion Club</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="{{ path('club_afficher1') }}" > Lister Club</a> </li>
+                      {#  <li><a href="widgets.html">Lister Activite</a></li> #}
+                    </ul>
+                </li>
+
+
+
+
+
                 <li><a href="{{ path('transport_liste') }}"><i class="lnr lnr-pencil"></i> <span>Gestion Transports</span></a></li>
 
                 <li><a href="codes.html"><i class="lnr lnr-pencil"></i> <span>Gestion Restoration</span></a></li>
