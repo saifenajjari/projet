@@ -1,0 +1,81 @@
+{% extends 'baseadmin.html.twig' %}
+
+{% block content %}
+    <div id="page-wrapper">
+        <div class="graphs">
+            <h3 class="blank1">Ajout Jardin</h3>
+            <div class="tab-content">
+                <div class="tab-pane active" id="horizontal-form">
+                    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-2 control-label">Nom</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control1" name="nom" placeholder="Nom">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-2 control-label">Address</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control1" name="address"  placeholder="Address">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-2 control-label">Capacite</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control1" name="nbenfant" id="focusedinput" placeholder="Capacite">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtarea1" class="col-sm-2 control-label">Description</label>
+                                    <div class="col-sm-8"><textarea name="description"  cols="50" rows="4" class="form-control1"></textarea></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-2 control-label">numTel</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control1" name="numtel" placeholder="numTel">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="focusedinput" class="col-sm-2 control-label">classe</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" name="de" class="form-control1"  placeholder="de">
+                                        <input type="number" name="a" class="form-control1"  placeholder="a">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Upload image</label>
+                                    <input type="file" name="image" id="exampleInputFile">
+
+                                </div>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-sm-8 col-sm-offset-2">
+                                            <button class="btn-success btn" type="submit">Submit</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
