@@ -1,0 +1,485 @@
+<?php
+
+namespace TransportBundle\Controller;
+
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
+use TransportBundle\Entity\Bus;
+use TransportBundle\Entity\Chauffeur;
+use TransportBundle\Entity\Ligne;
+use TransportBundle\Entity\ReservationTransport;
+use TransportBundle\Repository\BusRepository;
+use TransportBundle\Repository\ChauffeurRepository;
+use TransportBundle\Repository\LigneRepository;
+use TransportBundle\TransportBundle;use UserBundle\Entity\User;
+use Exception;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+class TransportController extends Controller
+{
+    public function afficherLignes()
+    {
+        $bus        =   $this->getDoctrine()->getRepository('TransportBundle:Bus')->findAll();
+        $lignes     =   $this->getDoctrine()->getRepository('TransportBundle:Ligne')->findAll();
+        $chauffeur  =   $this->getDoctrine()->getRepository('TransportBundle:Ligne')->findAll();
+        return $this->render('@Transport/Transport/transport.html.twig',[
+            'bus'       =>  $bus,
+            'lignes'    =>  $lignes,
+            'chauffeur' =>  $chauffeur
+        ]);
+    }
+
+    public function réserverLigneTransport(int $idUser,Ligne $ligne)
+    {
+        if ($ligne->getPlacesDisponibles()==0)
+        {
+            $this->addFlash('danger', 'Pas de places disponibles ');
+        }
+        else
+        {
+        $lignes     =   $this->getDoctrine()->getRepository('TransportBundle:Ligne')->findAll();
+        $reservation    =   new ReservationTransport();
+        $reservation->setIdLigne($ligne);
+        $ligne->setPlacesDisponibles($ligne->getPlacesDisponibles()-1);
+        //$reservation->setIdUser($idUser);
+        $entityManager   =    $this->getDoctrine()->getManager();
+        $entityManager   ->   persist($reservation);
+        try
+        {
+            $entityManager->flush();
+            $this->addFlash('success', 'Réservation efféctué avec succés');
+        }
+        catch(Exception $exception)
+        {
+            $this->addFlash('danger', 'Erreur lors de mise à jour du base de données');
+        }
+        }
+        return $this->redirectToRoute('transport_homepage');
+    }
+
+    public function afficherLignesBackoffice()
+    {
+        $lignes     =   $this->getDoctrine()->getRepository('TransportBundle:Ligne')->findAll();
+        return $this->render('@Transport/Transport/transportBackOffice.html.twig',[
+            'lignes'    =>      $lignes
+        ]);
+    }
+
+    public function afficherBusBackoffice()
+    {
+        $buss     =   $this->getDoctrine()->getRepository('TransportBundle:Bus')->findAll();
+        return $this->render('@Transport/Transport/busBackOffice.html.twig',[
+            'buss'    =>      $buss
+        ]);
+    }
+
+    public function ajouterBus(Request $request)
+    {
+        $bus   =   new Bus();
+        $form   =   $this->createFormBuilder($bus)
+            ->add('matricule',TextType::class, array(
+                'label'    =>  'Matricule',
+                'attr'     =>  array(
+                    'class' =>  'form-control'
+                )))
+            ->add('marque',TextType::class, array(
+                'label'    =>  'Marque de bus',
+                'attr'     =>  array(
+                    'class' =>  'form-control'
+                )))
+            ->add('idChauffeur',EntityType::class, array(
+                'class' =>   Chauffeur::class,
+                'choice_label'=> function($entity) {
+                    return $entity->getPrenom().' '.$entity->getNom();
+                },
+                'multiple'  =>  false,
+                'expanded'  =>  false,
+                'required'  =>  false,
+                'label'     =>  'Chauffeur',
+                'attr'      =>  array(
+                    'class' =>  'form-control',
+
+                )))
+            ->add('submit',SubmitType::class, array(
+                    'label' => 'Ajouter',
+                    'attr'  =>  array(
+                        'class'  => 'btn btn-primary'
+                    )
+                )
+            )->getForm();
+        $form   ->  handleRequest($request);
+        if ( $form->isSubmitted() && $form->isValid() )
+        {
+            $entityManager   =    $this->getDoctrine()->getManager();
+            $entityManager   ->   persist($bus);
+            try{
+                $entityManager->flush();
+                $this->addFlash('success', 'Bus ajouté avec succés');
+            }
+            catch(Exception $exception)
+            {
+                $this->addFlash('danger', 'Ce chauffeur a déjà un autre bus');
+            }
+            return $this->redirectToRoute('transport_backOffice_bus');
+        }
+        return $this->render('@Transport/Transport/ajoutBus.html.twig',[
+            'form'  =>  $form->createView()
+        ]);
+    }
+
+    public function modifierBus(Request $request,Bus $bus)
+    {
+        $form   =   $this->createFormBuilder($bus)
+            ->add('matricule',TextType::class, array(
+                'label'    =>  'Matricule',
+                'attr'     =>  array(
+                    'class' =>  'form-control'
+                )))
+            ->add('marque',TextType::class, array(
+                'label'    =>  'Marque de bus',
+                'attr'     =>  array(
+                    'class' =>  'form-control'
+                )))
+            ->add('idChauffeur',EntityType::class, array(
+                'class' =>   Chauffeur::class,
+                'choice_label'=> function($entity) {
+                    return $entity->getPrenom().' '.$entity->getNom();
+                },
+                'multiple'  =>  false,
+                'expanded'  =>  false,
+                'required'  =>  false,
+                'label'     =>  'Chauffeur',
+                'attr'      =>  array(
+                    'class' =>  'form-control',
+
+                )))
+            ->add('submit',SubmitType::class, array(
+                    'label' => 'Modifier',
+                    'attr'  =>  array(
+                        'class'  => 'btn btn-primary'
+                    )
+                )
+            )->getForm();
+        $form   ->  handleRequest($request);
+        if ( $form->isSubmitted() && $form->isValid() )
+        {
+            $entityManager   =    $this->getDoctrine()->getManager();
+            try{
+                $entityManager->flush();
+                $this->addFlash('success', 'Bus modifié avec succés');
+            }
+            catch(Exception $exception)
+            {
+                $this->addFlash('danger', 'Ce chauffeur a déjà un autre bus');
+            }
+            return $this->redirectToRoute('transport_backOffice_bus');
+        }
+        return $this->render('@Transport/Transport/modifierBus.html.twig',[
+            'form'  =>  $form->createView(),
+            'bus'   =>  $bus
+        ]);
+    }
+
+    public function deleteBus(Bus $bus)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($bus);
+        if(count($bus->getLignes())>0)
+        {
+            $this->addFlash('danger', 'Ce bus existe sur des lignes !');
+        }
+        else
+        {
+            try{
+                $entityManager->flush();
+                $this->addFlash('success', 'Bus supprimé avec succés');
+            }
+            catch(Exception $exception)
+            {
+                $this->addFlash('danger', "Erreur lors de mise à jour du base de données");
+            }
+        }
+
+        return $this->redirectToRoute('transport_backOffice_bus');
+    }
+
+    public function ajouterLigne(Request $request)
+    {
+        $ligne   =   new Ligne();
+        $form   =   $this->createFormBuilder($ligne)
+        ->add('nom',TextType::class, array(
+        'label'    =>  'Nom',
+        'attr'     =>  array(
+            'class' =>  'form-control'
+        )))
+        ->add('dateDepart',TimeType::class, array(
+            'label'    =>  'Date de départ',
+            'attr'     =>  array(
+            )))
+        ->add('pointDepart',TextType::class, array(
+            'label'    =>  'Point de Départ',
+            'attr'     =>  array(
+                'class' =>  'form-control'
+            )))
+        ->add('pointArrive',TextType::class, array(
+            'label'    =>  'Point d\'Arrivé',
+            'attr'     =>  array(
+                'class' =>  'form-control'
+            )))
+        ->add('placesDisponibles',IntegerType::class, array(
+            'label'    =>  'Places disponibles',
+            'attr'     =>  array(
+                'class' =>  'form-control'
+            )))
+        ->add('bus',EntityType::class, array(
+            'class' =>   Bus::class,
+            'choice_label'=> function($entity) {
+                return $entity->getMatricule();
+            },
+            'multiple'  =>  false,
+            'expanded'  =>  false,
+            'required'  =>  true,
+            'label'     =>  'Bus',
+            'attr'      =>  array(
+                    'class' =>  'form-control',
+
+            )))
+        ->add('submit',SubmitType::class, array(
+                'label' => 'Ajouter',
+                'attr'  =>  array(
+                    'class'  => 'btn btn-primary'
+                )
+            )
+        )->getForm();
+        $form   ->  handleRequest($request);
+        if ( $form->isSubmitted() && $form->isValid() )
+        {
+            $entityManager   =    $this->getDoctrine()->getManager();
+            $entityManager   ->   persist($ligne);
+            try{
+                $entityManager->flush();
+                $this->addFlash('success', 'Ligne ajouté avec succés');
+            }
+            catch(Exception $exception)
+            {
+                $this->addFlash('danger', 'Erreur lors de mise à jour du base de données');
+            }
+            return $this->redirectToRoute('transport_backOffice_lignes');
+        }
+        return $this->render('@Transport/Transport/ajoutLigne.html.twig',[
+            'form'  =>  $form->createView()
+            ]);
+    }
+
+    public function modifierLigne(Request $request,Ligne $ligne)
+    {
+        $form   =   $this->createFormBuilder($ligne)
+            ->add('nom',TextType::class, array(
+                'label'    =>  'Nom',
+                'attr'     =>  array(
+                    'class' =>  'form-control'
+                )))
+            ->add('dateDepart',TimeType::class, array(
+                'label'    =>  'Date de départ',
+                'attr'     =>  array(
+                )))
+            ->add('pointDepart',TextType::class, array(
+                'label'    =>  'Point de Départ',
+                'attr'     =>  array(
+                    'class' =>  'form-control'
+                )))
+            ->add('pointArrive',TextType::class, array(
+                'label'    =>  'Point d\'Arrivé',
+                'attr'     =>  array(
+                    'class' =>  'form-control'
+                )))
+            ->add('placesDisponibles',IntegerType::class, array(
+                'label'    =>  'Places disponibles',
+                'attr'     =>  array(
+                    'class' =>  'form-control'
+                )))
+            ->add('bus',EntityType::class, array(
+                'class' =>   Bus::class,
+                'choice_label'=> function($entity) {
+                    return $entity->getMatricule();
+                },
+                'multiple'  =>  false,
+                'expanded'  =>  false,
+                'required'  =>  true,
+                'label'     =>  'Bus',
+                'attr'      =>  array(
+                    'class' =>  'form-control',
+
+                )))
+            ->add('submit',SubmitType::class, array(
+                    'label' => 'Modifier',
+                    'attr'  =>  array(
+                        'class'  => 'btn btn-primary'
+                    )
+                )
+            )->getForm();
+        $form   ->  handleRequest($request);
+        if ( $form->isSubmitted() && $form->isValid() )
+        {
+            $entityManager   =    $this->getDoctrine()->getManager();
+            try{
+                $entityManager->flush();
+                $this->addFlash('success', 'Ligne modifié avec succés');
+            }
+            catch(Exception $exception)
+            {
+                $this->addFlash('danger', 'Erreur lors de mise à jour du base de données');
+            }
+            return $this->redirectToRoute('transport_backOffice_lignes');
+        }
+        return $this->render('@Transport/Transport/modifierLigne.html.twig',[
+            'form'  =>  $form->createView(),
+            'ligne' =>  $ligne
+        ]);
+    }
+
+    public function deleteLigne(Ligne $ligne)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($ligne);
+        try{
+            $entityManager->flush();
+            $this->addFlash('success', 'Ligne supprimé avec succés');
+        }
+        catch(Exception $exception)
+        {
+            $this->addFlash('danger', 'Erreur lors de mise à jour du base de données');
+        }
+
+        return $this->redirectToRoute('transport_backOffice_lignes');
+    }
+
+    public function afficherChauffeurBackoffice()
+    {
+        $chauffeurs     =   $this->getDoctrine()->getRepository('TransportBundle:Chauffeur')->findAll();
+        return $this->render('@Transport/Transport/chauffeurBackOffice.html.twig',[
+            'chauffeurs'    =>      $chauffeurs
+        ]);
+    }
+
+    public function ajouterChauffeur(Request $request)
+    {
+        $chauffeur   =   new Chauffeur();
+        $form   =   $this->createFormBuilder($chauffeur)
+            ->add('nom',TextType::class, array(
+                'label'    =>  'Nom',
+                'attr'     =>  array(
+                    'class' =>  'form-control'
+                )))
+            ->add('prenom',TextType::class, array(
+                'label'    =>  'Prenom',
+                'attr'     =>  array(
+                    'class' =>  'form-control'
+                )))
+            ->add('cin',IntegerType::class, array(
+                'label'    =>  'CIN',
+                'attr'     =>  array(
+                    'class' =>  'form-control'
+                )))
+            ->add('submit',SubmitType::class, array(
+                    'label' => 'Ajouter',
+                    'attr'  =>  array(
+                        'class'  => 'btn btn-primary'
+                    )
+                )
+            )->getForm();
+        $form   ->  handleRequest($request);
+        if ( $form->isSubmitted() && $form->isValid() )
+        {
+            $entityManager   =    $this->getDoctrine()->getManager();
+            $entityManager   ->   persist($chauffeur);
+            try{
+                $entityManager->flush();
+                $this->addFlash('success', 'Chauffeur ajouté avec succés');
+            }
+            catch(Exception $exception)
+            {
+                $this->addFlash('danger', 'Ce bus a déjà un autre chauffeur');
+            }
+            return $this->redirectToRoute('transport_backOffice_chauffeur');
+        }
+        return $this->render('@Transport/Transport/ajoutChauffeur.html.twig',[
+            'form'  =>  $form->createView()
+        ]);
+    }
+
+    public function deleteChauffeur(Chauffeur $chauffeur)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($chauffeur);
+        if($chauffeur->getIdBus())
+        {
+            $this->addFlash('danger', 'Ce chauffeur existe sur un Bus !');
+        }
+        else
+        {
+            try{
+                $entityManager->flush();
+                $this->addFlash('success', 'chauffeur supprimé avec succés');
+            }
+            catch(Exception $exception)
+            {
+                $this->addFlash('danger', "Erreur lors de mise à jour du base de données");
+            }
+        }
+
+        return $this->redirectToRoute('transport_backOffice_chauffeur');
+    }
+
+    public function modifierChauffeur(Request $request,Chauffeur $chauffeur)
+    {
+        $form   =   $this->createFormBuilder($chauffeur)
+            ->add('nom',TextType::class, array(
+                'label'    =>  'Nom',
+                'attr'     =>  array(
+                    'class' =>  'form-control'
+                )))
+            ->add('prenom',TextType::class, array(
+                'label'    =>  'Prenom',
+                'attr'     =>  array(
+                    'class' =>  'form-control'
+                )))
+            ->add('cin',IntegerType::class, array(
+                'label'    =>  'CIN',
+                'attr'     =>  array(
+                    'class' =>  'form-control'
+                )))
+            ->add('submit',SubmitType::class, array(
+                    'label' => 'Modifier',
+                    'attr'  =>  array(
+                        'class'  => 'btn btn-primary'
+                    )
+                )
+            )->getForm();
+        $form   ->  handleRequest($request);
+        if ( $form->isSubmitted() && $form->isValid() )
+        {
+            $entityManager   =    $this->getDoctrine()->getManager();
+            try{
+                $entityManager->flush();
+                $this->addFlash('success', 'Chauffeur modifié avec succés');
+            }
+            catch(Exception $exception)
+            {
+                $this->addFlash('danger', 'Ce chauffeur a déjà un autre bus');
+            }
+            return $this->redirectToRoute('transport_backOffice_chauffeur');
+        }
+        return $this->render('@Transport/Transport/modifierChauffeur.html.twig',[
+            'form'  =>  $form->createView(),
+            'chauffeur'   =>  $chauffeur
+        ]);
+    }
+}
