@@ -10,4 +10,15 @@ namespace ClubBundle\Repository;
  */
 class ActiviteRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findClub($id)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                "SELECT a
+       FROM ClubBundle:Activite a
+        WHERE a.club=:id"
+            )
+            ->setParameter('id',$id)
+            ->getResult();
+    }
 }

@@ -18,13 +18,68 @@ club_afficher1:
 
 
 club_supprimer:
-    path:     /supp{id}
+    path:     /supp/{id}
     defaults: { _controller: ClubBundle:MainAdmin:supprimer }
 
 club_modifier:
-    path:     /mod{id}
+    path:     /mod/{id}
     defaults: { _controller: ClubBundle:MainAdmin:modifier }
 
+ajax_search:
+    path:     /search
+    defaults: { _controller: ClubBundle:MainAdmin:search }
+
+
+
+
+
+
+club_ajouter2:
+    path:     /add2
+    defaults: { _controller: ClubBundle:MainAct:ajouter2 }
+
+club_afficher2:
+    path:     /aff2
+    defaults: { _controller: ClubBundle:MainAct:afficher2 }
+
+club_afficherAct:
+    path:     /aff3/{id}
+    defaults: { _controller: ClubBundle:MainAct:afficherAct }
+
+club_supprimer1:
+    path:     /supp1/{id}
+    defaults: { _controller: ClubBundle:MainAct:supprimer1 }
+
+club_modifier1:
+    path:     /mod1/{id}
+    defaults: { _controller: ClubBundle:MainAct:modifier1 }
+
+
+
+club_ajouterIns:
+    path:     /add3/{id}
+    defaults: { _controller: ClubBundle:Inscription:ajouterIns}
+
+club_afficherIns:
+    path:     /aff4
+    defaults: { _controller: ClubBundle:Inscription:afficherIns}
+
+supp_inscription:
+    path:     /supp_inscription/{id}
+    defaults: { _controller: ClubBundle:Inscription:supp_inscription}
+
+
+accept_inscription:
+    path:     /accept_inscription/{id}
+    defaults: { _controller: ClubBundle:Inscription:accept_inscription}
+
+club_afficherInsAct:
+    path:     /aff5
+    defaults: { _controller: ClubBundle:Inscription:afficherInsAct}
+
+supp_inscriptionAct:
+    path:     /supp_inscriptionAct/{id}
+    defaults: { _controller: ClubBundle:Inscription:supprimerInsAct}
 
 
 

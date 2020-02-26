@@ -20,6 +20,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <link href="{{ asset('admin/css/style.css') }}" rel='stylesheet' type='text/css' />
     <!-- Graph CSS -->
     <link href="{{ asset('admin/css/font-awesome.css') }}" rel="stylesheet">
+
     <!-- jQuery -->
     <!-- lined-icons -->
     <link rel="stylesheet" href="{{ asset('admin/css/icon-font.min.css') }}" type='text/css' />
@@ -77,8 +78,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <a href="#"><i class="lnr lnr-menu"></i>
                         <span>Gestion Club</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="{{ path('club_afficher1') }}" > Lister Club</a> </li>
-                      {#  <li><a href="widgets.html">Lister Activite</a></li> #}
+                        <li><a href="{{ path('club_afficher1') }}" > Lister Clubs</a> </li>
+                        <li><a href="{{ path('club_afficher2') }}">Lister Activites</a></li>
+                        <li><a href="{{ path('club_afficherIns') }}">Demande D'inscription</a></li>
+                        <li><a href="{{ path('club_afficherInsAct') }}">Lister Inscriptions</a></li>
                     </ul>
                 </li>
 

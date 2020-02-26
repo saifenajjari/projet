@@ -1,0 +1,66 @@
+{% extends "base.html.twig" %}
+
+
+
+{% block titre %}
+    Nos Activites
+
+    <p class="bg-secondary text-white">
+        <a href="{{ path('club_afficher') }}">Retourner aux clubs </a>
+    </p>
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+
+        <p class="btn btn-danger">
+        <a href="{{ path('club_afficher') }}">Retour </a>
+        </p>
+
+        <section class="ftco-section">
+
+        {% for a in activites %}
+
+
+                <span class="subheading">{{ a.club.nom }}</span>
+                <h1 class="mb-4" style="color: mediumvioletred ">{{ a.nom }}</h1>
+
+
+
+
+                    <div class="row">
+                        <div class="block-3 d-md-flex ftco-animate" data-scrollax-parent="true">
+                            <td><img src="{{ asset('uploads/photos/' ~ a.photo) }}" height="400px" width="380px" class="rounded-circle" alt="Cinque Terre" ></td>
+                            <div class="text">
+                                <ul>
+                                <li>ADRESSE : {{ a.adresse }}</li>
+                                <li>AGE MINIMUM DE PARTICIPATION : {{a.agemin }}</li>
+                                <li>AGE MAXIMUM DE PARTICIPATION : {{ a.agemax }}</li>
+                                <li>JOURS: {{ a.jours }}</li>
+                                <li>HEURE DE DEBUT DE L'ACTIVITE : {{ a.heured|date("H:i:s") }}</li>
+                                <li>HEURE DE FIN DE L'ACTIVITE : {{ a.heuref|date("H:i:s") }}</li></ul>
+
+                                <li>MONTANT A PAYER /MOIS: : {{ a.montantp }}</li>
+                                <li>NOMBRE DES PLACES DISPONIBLES : {{ a.nbDispo }}</li>
+                                </ul>
+
+                                {% if a.nbDispo >0 %}
+                                <p><a href="{{ path('club_ajouterIns',{'id':a.id}) }}" class="btn btn-primary px-4">S'INSCRIR</a></p>
+                                {% else %}
+
+                                <h4 class="mb-4" style="color: mediumvioletred "> -> Pas Des places Disponibles. </h4>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+            {% endfor %}
+    </section>
+    </div>
+
+{% endblock %}

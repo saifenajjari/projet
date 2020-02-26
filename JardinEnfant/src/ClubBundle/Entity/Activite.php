@@ -1,6 +1,7 @@
 <?php
 
 namespace ClubBundle\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Activite
 { /**
+
  * @ORM\ManyToOne(targetEntity="Club")
  * @ORM\JoinColumn(name="club_id", referencedColumnName="id")
  */
@@ -34,6 +36,7 @@ class Activite
     }
 
 
+
     /**
      * @var int
      *
@@ -50,12 +53,52 @@ class Activite
      */
     private $nom;
 
+
+    /**
+     * @var string
+     * @Assert\File(mimeTypes={ "image/png", "image/jpeg" })
+     * @ORM\Column(name="image", type="string", length=255)
+     */
+    private $photo;
+
+    /**
+     * @return string
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param string $photo
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+    }
+
     /**
      * @var string
      *
      * @ORM\Column(name="adresse", type="string", length=255)
      */
     private $adresse;
+
+    /**
+     * @return string
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * @param string $adresse
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
+    }
 
     /**
      * @var int
@@ -72,18 +115,123 @@ class Activite
     private $agemax;
 
     /**
-     * @var \DateTime
+     * @var float
      *
-     * @ORM\Column(name="dated", type="time")
+     * @ORM\Column(name="montantp", type="float")
      */
-    private $dated;
+    private $montantp;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="datef", type="time")
+     * @return float
      */
-    private $datef;
+    public function getMontantp()
+    {
+        return $this->montantp;
+    }
+
+    /**
+     * @param float $montantp
+     */
+    public function setMontantp($montantp)
+    {
+        $this->montantp = $montantp;
+    }
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="nbDispo", type="integer")
+     */
+    private $nbDispo;
+
+    /**
+     * @return int
+     */
+    public function getNbDispo()
+    {
+        return $this->nbDispo;
+    }
+
+    /**
+     * @param int $nbDispo
+     */
+    public function setNbDispo($nbDispo)
+    {
+        $this->nbDispo = $nbDispo;
+    }
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="jours", type="string", length=255)
+     */
+    private $jours;
+
+    /**
+     * @return string
+     */
+    public function getJours()
+    {
+        return $this->jours;
+    }
+
+    /**
+     * @param string $jours
+     */
+    public function setJours($jours)
+    {
+        $this->jours = $jours;
+    }
+
+
+
+    /**
+
+     *
+     * @ORM\Column(name="heured", type="time")
+     * @var \DateTime
+     */
+    private $heured;
+
+    /**
+     * @return string
+     */
+    public function getHeured()
+    {
+        return $this->heured;
+    }
+
+    /**
+     * @param string $heured
+     */
+    public function setHeured($heured)
+    {
+        $this->heured = $heured;
+    }
+
+    /**
+
+     * @ORM\Column(name="heuref", type="time")
+     * @var \DateTime
+     */
+    private $heuref;
+
+    /**
+     * @return string
+     */
+    public function getHeuref()
+    {
+        return $this->heuref;
+    }
+
+    /**
+     * @param string $heuref
+     */
+    public function setHeuref($heuref)
+    {
+        $this->heuref = $heuref;
+    }
 
 
     /**
@@ -168,52 +316,9 @@ class Activite
         return $this->agemax;
     }
 
-    /**
-     * Set dated
-     *
-     * @param \DateTime $dated
-     *
-     * @return Activite
-     */
-    public function setDated($dated)
+    public  function __toString()
     {
-        $this->dated = $dated;
-
-        return $this;
-    }
-
-    /**
-     * Get dated
-     *
-     * @return \DateTime
-     */
-    public function getDated()
-    {
-        return $this->dated;
-    }
-
-    /**
-     * Set datef
-     *
-     * @param \DateTime $datef
-     *
-     * @return Activite
-     */
-    public function setDatef($datef)
-    {
-        $this->datef = $datef;
-
-        return $this;
-    }
-
-    /**
-     * Get datef
-     *
-     * @return \DateTime
-     */
-    public function getDatef()
-    {
-        return $this->datef;
+        return(string)($this->getNom());
     }
 }
 

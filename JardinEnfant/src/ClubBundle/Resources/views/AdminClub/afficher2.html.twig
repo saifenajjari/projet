@@ -1,0 +1,66 @@
+{% extends "baseadmin.html.twig" %}
+
+
+
+
+{% block content %}
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
+
+    <div class="container">
+        <h1 class="mb-4" style="color: mediumvioletred " align="center" font-family="arial" > Nos Activités  </h1>
+        <table border="1">
+            <thead class="table-danger" align="center">
+            <th>Club</th>
+            <th>Nom</th>
+            <th>Image</th>
+            <th>Adresse</th>
+            <th>Age minimum</th>
+            <th>Age maximum</th>
+            <th>Jours</th>
+            <th>Heure de debut</th>
+            <th>Heure de fin</th>
+            <th>Nombre Des Places Disponibles </th>
+            <th>Montant a payer/mois </th>
+            <th>Action</th>
+            </thead>
+            <tbody class="table-primary" align="center">
+            {% for activite in activites %}
+                <tr>
+                    <td>{{ activite.club.nom }}</td>
+                    <td>{{ activite.nom }}</td>
+                    <td>{{ activite.photo }}</td>
+                    <td>{{ activite.adresse }}</td>
+                    <td>{{ activite.agemin }}</td>
+                    <td>{{ activite.agemax }}</td>
+                    <td>{{ activite.jours }}</td>
+                    <td>{{ activite.heured|date("H:i:s") }}</td>
+                    <td>{{ activite.heuref|date("H:i:s") }}</td>
+                    <td>{{ activite.nbDispo }}</td>
+                    <td>{{ activite.montantp }}</td>
+
+
+                   <td><a href="{{ path('club_supprimer1',{'id':activite.id}) }}"> <button class="btn btn-danger">Supprimer</button></a>
+                      <a href="{{ path('club_modifier1',{'id':activite.id}) }}"><button class="btn btn-warning">Modifier</button></a></td>
+
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+      <a href="{{ path('club_ajouter2') }}">   <button class="btn btn-primary">Ajouter</button></a>
+
+
+    </div>
+{% endblock %}
+
+
+
+

@@ -13,23 +13,116 @@
 
 <section class="ftco-section bg-light">
     <div class="container">
+
+    <h2>Cherchez un club </h2>
+
+    <div class="sidebar-search">
+
+        <div class="input-group custom-search-form">
+
+            <input type="text" id="search" class="form-control" placeholder="Search here">
+        </div>
+        <!-- /input-group -->
+    </div>
+    <ul class="nav" id="side-menu">
+        <li>
+            <a href="#"> Clubs <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level" id="entitiesNav">
+            </ul>
+        </li>
+    </ul><br><br><br><br>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            var searchRequest = null;
+            $("#search").keyup(function() {
+                var minlength = 1;
+                var that = this;
+                var value = $(this).val();
+                var entitySelector = $("#entitiesNav").html('');
+                if (value.length >= minlength ) {
+                    if (searchRequest != null)
+                        searchRequest.abort();
+                    searchRequest = $.ajax({
+                        type: "GET",
+                        url: "{{ path('ajax_search') }}",
+                        data: {
+                            'q' : value
+                        },
+                        dataType: "text",
+                        success: function(msg){
+                            //we need to check if the value is the same
+                            if (value===$(that).val()) {
+                                var result = JSON.parse(msg);
+                                $.each(result, function(key, arr) {
+                                    $.each(arr, function(id, value) {
+                                        if (key === 'clubs') {
+                                            if (id !== 'error') {
+                                                console.log(value[1]);
+                                                entitySelector.append('<b>'+value[1]+'</b><br><a href="{{ path('club_afficherAct',{'id': 'key' }) }}"><br>'+'<img src="{{ asset('uploads/photos/') }}'+value[0]+'" style="width: 150px; height: 150px"/>'+' </a>');
+                                            } else {
+                                                entitySelector.append('<li class="errorLi">'+value+'</li>');
+                                            }
+                                        }
+                                    });
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+    <div class="post-container">
         <div class="row">
-
-
             {% for c in clubs %}
-            <div class="col-md-4 ftco-animate">
-                <div class="blog-entry" data-aos-delay="200">
+
+
+
+    <div class="col-md-4 ftco-animate">
+                <div class="person-info mb-2">
+                    <div> <span class="name">{{ c.jardin }}</span></div>
+                    <div> <span class="position">{{ c.contact }}</span></div>
+                </div>
+
+            <div class="blog-entry" data-aos-delay="200" >
+
+
+                        <td><img src="{{ asset('uploads/photos/' ~ c.photo) }}" height="250px" width="347px" class="img-thumbnail" alt="Cinque Terre" ></td>
+
 
                     <div class="text p-4">
                         <div class="meta mb-3">
-                            <div><a href="#" style="color: #0b0b0b">{{ c.nom }}</a></div>
+                            <div><h1  style="color: mediumvioletred "  >{{ c.nom }}</h1></div>
                             <div><a href="#">Admin</a></div>
-                            <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+
                         </div>
                         <h3 class="heading"><a href="#">{{ c.descp }}</a></h3>
+                        <div><h4  style="color:blueviolet "  > Nombre Des Activités : {{ c.nbAct }}</h4></div>
                     </div>
-                </div>
+                    <p><a href="{{ path('club_afficherAct',{'id':c.id}) }}" class="btn btn-primary px-4">ACTIVITES</a></p>
+
+
             </div>
+
+    </div>
+
        {% endfor %}
+
+        </div>
+        <div class="navigation text-center">
+            {{ knp_pagination_render(clubs) }}
+        </div>
+    </div>
+
 
 {% endblock %}

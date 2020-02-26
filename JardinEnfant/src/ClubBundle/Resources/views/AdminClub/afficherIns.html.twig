@@ -1,0 +1,71 @@
+{% extends "baseadmin.html.twig" %}
+
+
+
+
+{% block content %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
+    <div class="container">
+        <h1 class="mb-4" style="color: mediumvioletred " align="center" font-family="arial"> Les Demandes D'inscription  </h1>
+        <table  border="1">
+            <thead class="table-danger" align="center">
+            <th>Activité :</th>
+            <th>Nom Du Parents :</th>
+            <th>Numero De Telephone:</th>
+            <th>Email:</th>
+            <th>Adresse:</th>
+            <th>Nom D'enfant:</th>
+            <th>Image :</th>
+            <th>Age:</th>
+            <th>Nombre de mois de participation:</th>
+
+            <th>Date de debut :</th>
+
+            <th>Commentaire:</th>
+            <th>Montant A Payer:</th>
+            <th>Action</th>
+
+            </thead>
+            <tbody class="table-primary" align="center">
+            {% for inscription in inscription %}
+                <tr>
+                    <td>{{ inscription.activite }}</td>
+                    <td>{{ inscription.nomParent }}</td>
+                    <td>{{ inscription.numTel }}</td>
+                    <td>{{ inscription.email }}</td>
+                    <td>{{ inscription.adresse }}</td>
+                    <td>{{ inscription.nomEnfant }}</td>
+                    <td>{{ inscription.photo }}</td>
+                    <td>{{ inscription.age }}</td>
+                    <td>{{ inscription.nbmois }}</td>
+                    <td>{{ inscription.dated|date("y/m/d") }}</td>
+                    <td>{{ inscription.commentaire }}</td>
+                    <td>{{ inscription.montant }}</td>
+
+
+
+                     <td><a href="{{ path('supp_inscription',{'id':inscription.id}) }}"> <button class="btn btn-danger">Refuser</button></a>
+                          <a href="{{ path('accept_inscription',{'id':inscription.id}) }}"><button class="btn btn-warning">Accepter</button></a></td>
+
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+
+    </div>
+
+{% endblock %}
+
+
+
+

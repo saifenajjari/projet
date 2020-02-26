@@ -10,4 +10,17 @@ namespace ClubBundle\Repository;
  */
 class ClubRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findEntitiesByString($str)
+    {
+        return $this->getEntityManager()
+            ->createQuery
+            (
+                'SELECT c
+                FROM ClubBundle:Club c
+                WHERE c.jardin LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
+    }
+
 }

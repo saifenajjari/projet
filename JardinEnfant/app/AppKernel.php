@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new ClubBundle\ClubBundle(),
             new EvenementBundle\EvenementBundle(),
             new ReclamationBundle\ReclamationBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
@@ -66,4 +67,5 @@ class AppKernel extends Kernel
         });
         $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
     }
+
 }

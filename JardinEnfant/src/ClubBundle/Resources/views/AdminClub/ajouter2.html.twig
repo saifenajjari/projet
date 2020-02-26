@@ -1,0 +1,236 @@
+{% extends "baseadmin.html.twig" %}
+
+
+
+
+
+
+{% block content %}
+    <div class="container">
+
+        <h1 class="mb-4" style="color: mediumvioletred " align="center" font-family="arial"> Formulaire  </h1>
+
+
+
+
+        {#  {{ form_start(form) }}
+          {{ form_widget(form) }}
+          {{ form_end(form) }}#}
+        {{ form_start(form) }}
+        {% for flash_message in app.session.flashBag.get('success') %}
+            <div class="alert alert-success">
+                {{ flash_message }}
+            </div>
+        {% endfor %}
+
+
+        <div class="form-group">
+            <label for="text">Club : </label>
+            {{ form_widget(form.club, { 'id': 'club'}) }}
+        </div>
+        <div class="form-group">
+            <label for="file">Image : </label>
+            {{ form_widget(form.photo, { 'id': 'image'}) }}
+        </div>
+
+        <div class="form-group">
+            <label for="text">Nom : </label>
+            {{ form_widget(form.nom, { 'id': 'nom'}) }}
+        </div>
+        <div class="form-group">
+            <label for="text">Adresse:</label>
+            {{ form_widget(form.adresse, { 'id': 'adresse'}) }}
+        </div>
+        <div class="form-group">
+            <label for="text">Age minimum : </label>
+            {{ form_widget(form.agemin,{ 'id': 'ageMin'} }) }}
+        </div>
+        <div class="form-group">
+            <label for="text">Age maximum : </label>
+            {{ form_widget(form.agemax,{ 'id': 'ageMax'}) }}
+        </div>
+        <div class="form-group">
+            <label for="text">Jours : </label>
+            {{ form_widget(form.jours,{ 'id': 'jours'}) }}
+        </div>
+        <div class="form-group">
+            <label for="text">heure de debut : </label>
+            {{ form_widget(form.heured, { 'id': 'heureD'}) }}
+        </div>
+        <div class="form-group">
+            <label for="text">heure de fin : </label>
+            {{ form_widget(form.heuref, { 'id': 'heureF'}) }}
+        </div>
+        <div class="form-group">
+            <label for="text">Nombre Des Places Disponibles : </label>
+            {{ form_widget(form.nbDispo, { 'id': 'place'}) }}
+        </div>
+        <div class="form-group">
+            <label for="text">Montant a payer /mois : </label>
+            {{ form_widget(form.montantp, { 'id': 'montant'}) }}
+        </div>
+        {{ form_widget(form.Ajouter, { 'attr': {'class': 'btn btn-primary'} }) }}
+
+        {{ form_end(form) }}
+        <a href="{{ path('club_afficher2') }}"> <button class="btn btn-secondary">Retour</button></a>
+
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+
+    <script type="text/javascript">
+        $("#formDefective").submit(function(e){
+            /****  NOM *****/
+            if ( $("#nom").val()==""){
+                $("#errorNom").show();
+                e.preventDefault();
+
+            }
+            else
+            {
+                $("#errorNom").hide();
+            }
+
+
+            /****  jardin *****/
+
+            if ( $("#club").val()==""){
+                $("#clubD").show();
+                e.preventDefault();
+
+            }
+            else
+            {
+                $("#clubD").hide();
+            }
+
+
+            /****  Decription *****/
+
+            if ( $("#descriptionD").val()==""){
+                $("#errordescriptionD").show();
+                e.preventDefault();
+            }
+            else
+            {
+                $("#errordescriptionD").hide();
+            }
+
+
+
+            /****  IMAGE *****/
+
+            if ( $("#image").val()==""){
+                $("#errorImage").show();
+                e.preventDefault();
+            }
+            else
+            {
+                $("#errorImage").hide();
+            }
+
+
+            /****  contact *****/
+
+            if ( $("#contact").val()==""){
+                $("#contactD").show();
+                e.preventDefault();
+
+            }
+            else
+            {
+                $("#contactD").hide();
+            }
+
+
+            if ( $("#nom").val()==""){
+                $("#errorNom").show();
+                e.preventDefault();
+
+            }
+            else
+            {
+                $("#errorNom").hide();
+            }
+
+
+            if ( $("#nom").val()==""){
+                $("#errorNom").show();
+                e.preventDefault();
+
+            }
+            else
+            {
+                $("#errorNom").hide();
+            }
+
+
+
+            if ( $("#nom").val()==""){
+                $("#errorNom").show();
+                e.preventDefault();
+
+            }
+            else
+            {
+                $("#errorNom").hide();
+            }
+
+
+
+            if ( $("#nom").val()==""){
+                $("#errorNom").show();
+                e.preventDefault();
+
+            }
+            else
+            {
+                $("#errorNom").hide();
+            }
+
+
+
+            if ( $("#nom").val()==""){
+                $("#errorNom").show();
+                e.preventDefault();
+
+            }
+            else
+            {
+                $("#errorNom").hide();
+            }
+
+
+
+            if ( $("#nom").val()==""){
+                $("#errorNom").show();
+                e.preventDefault();
+
+            }
+            else
+            {
+                $("#errorNom").hide();
+            }
+
+
+
+            if ( $("#nom").val()==""){
+                $("#errorNom").show();
+                e.preventDefault();
+
+            }
+            else
+            {
+                $("#errorNom").hide();
+            }
+
+
+
+
+
+        });
+    </script>
+{% endblock %}

@@ -8,23 +8,148 @@
 {% block content %}
     <div class="container">
 
+
+
+
+        <h1 class="mb-4" style="color: mediumvioletred " align="center" font-family="arial"> Formulaire  </h1>
+
   {#  {{ form_start(form) }}
     {{ form_widget(form) }}
     {{ form_end(form) }}#}
-        {{ form_start(form) }}
+
+
+        {{ form_start(form, {'method': 'post', 'action': path('club_ajouter'),'attr': {'novalidate': 'novalidate','id':'formDefective'} }       ) }}
+
+
+
+
+        {% for flash_message in app.session.flashBag.get('success') %}
+            <div class="alert alert-success">
+                {{ flash_message }}
+            </div>
+        {% endfor %}
+
+
+        <div class="form-group">
+            <label for="text">Jardin : </label>
+            {{ form_widget(form.jardin,  { 'id': 'jardin'}) }}
+            <div class="alert alert-danger" id="jardinD" hidden>
+                Enter jardin
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label for="text">Contact: </label>
+            {{ form_widget(form.contact, { 'id': 'contact'}) }}
+            <div class="alert alert-danger" id="contactD" hidden>
+                Enter contact
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="text">Image : </label>
+            {{ form_widget(form.photo ,{ 'id': 'image'}) }}
+            <div class="alert alert-danger" id="errorImage" hidden>
+                Choose image
+            </div>
+        </div>
+
             <div class="form-group">
                 <label for="text">Nom : </label>
-                {{ form_widget(form.nom, { 'attr': {'class': 'form-control'} }) }}
+                {{ form_widget(form.nom,{ 'id': 'nom'} ) }}
+                <div class="alert alert-danger" id="errorNom" hidden>
+                    Enter name
+                </div>
             </div>
+
             <div class="form-group">
-                <label for="pwd">desc:</label>
-                {{ form_widget(form.descp, { 'attr': {'class': 'form-control'} }) }}
+                <label for="text">Description:</label>
+                {{ form_widget(form.descp,{ 'id': 'descriptionD'}) }}
+                <div class="alert alert-danger" id="errordescriptionD" hidden>
+                    Enter description
+                </div>
+
             </div>
-        {{ form_widget(form.Ajouter, { 'attr': {'class': 'btn btn-primary'} }) }}
-        </form>
+        {{ form_widget(form.Ajouter, { 'attr': {'class': 'btn btn-primary'} },{'attr': {'id':'formDefective'} }       ) }}
+
         {{ form_end(form) }}
+        <a href="{{ path('club_afficher1') }}"> <button class="btn btn-secondary">Retour</button></a>
 
 </div>
 
 
+{% endblock %}
+{% block js %}
+
+    <script type="text/javascript">
+        $("#formDefective").submit(function(e){
+            /****  NOM *****/
+            if ( $("#nom").val()==""){
+                $("#errorNom").show();
+                e.preventDefault();
+
+            }
+            else
+            {
+                $("#errorNom").hide();
+            }
+
+
+            /****  jardin *****/
+
+            if ( $("#jardin").val()==""){
+                $("#jardinD").show();
+                e.preventDefault();
+
+            }
+            else
+            {
+                $("#jardintD").hide();
+            }
+
+
+            /****  Decription *****/
+
+            if ( $("#descriptionD").val()==""){
+                $("#errordescriptionD").show();
+                e.preventDefault();
+            }
+            else
+            {
+                $("#errordescriptionD").hide();
+            }
+
+
+
+            /****  IMAGE *****/
+
+            if ( $("#image").val()==""){
+                $("#errorImage").show();
+                e.preventDefault();
+            }
+            else
+            {
+                $("#errorImage").hide();
+            }
+
+
+            /****  contact *****/
+
+            if ( $("#contact").val()==""){
+                $("#contactD").show();
+                e.preventDefault();
+
+            }
+            else
+            {
+                $("#contactD").hide();
+            }
+
+
+
+
+
+        });
+    </script>
 {% endblock %}

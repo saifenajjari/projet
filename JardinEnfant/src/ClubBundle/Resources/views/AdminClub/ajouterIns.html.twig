@@ -1,0 +1,95 @@
+{% extends "base.html.twig" %}
+
+{% block titre %}
+   Demande D'inscription
+
+
+    <p class="bg-secondary text-white">
+        <a href="{{ path('club_afficher') }}">Retourner aux clubs </a>    </p>
+{% endblock %}
+
+
+
+
+
+{% block content %}
+    <div class="container">
+
+
+
+
+
+
+        {#  {{ form_start(form) }}
+          {{ form_widget(form) }}
+          {{ form_end(form) }}#}
+        {{ form_start(form) }}
+
+        {% for flash_message in app.session.flashBag.get('success') %}
+            <div class="alert alert-success">
+                {{ flash_message }}
+            </div>
+        {% endfor %}
+
+        <div class="form-group">
+            <label for="text">Nom Du Parents : </label>
+            {{ form_widget(form.nomParent, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+        <div class="form-group">
+            <label for="text">Numero De Telephone:</label>
+            {{ form_widget(form.numTel, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            <label for="text">Email:</label>
+            {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            <label for="text">Adresse:</label>
+            {{ form_widget(form.adresse, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            <label for="text">Nom D'enfant: </label>
+            {{ form_widget(form.nomEnfant, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            <label for="text">Image : </label>
+            {{ form_widget(form.photo, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+        <div class="form-group">
+            <label for="text">Age:</label>
+            {{ form_widget(form.age, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+
+
+        <div class="form-group">
+            <label for="text">Nombre de mois de participation:</label>
+            {{ form_widget(form.nbmois, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            <label for="text">Date de debut : </label>
+            {{ form_widget(form.dated, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+
+    <div class="form-group">
+        <label for="text">Commentaire : </label>
+        {{ form_widget(form.commentaire, { 'attr': {'class': 'form-control'} }) }}
+        <p class="text-danger">Ecrivez "rien" si vous n'avez pas du commentaire !</p>
+    </div>
+
+
+
+        {{ form_widget(form.Envoyer, { 'attr': {'class': 'btn btn-primary'} }) }}
+
+        {{ form_end(form) }}
+
+    </div>
+
+
+{% endblock %}
